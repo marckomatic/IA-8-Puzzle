@@ -1,0 +1,53 @@
+<html lang="es">
+
+<head>
+      <title>8-puzzle (Beam search)</title>
+      <script type="text/javascript" src="beam-search.js"></script>
+      <script type="text/javascript" src="vis-network.min.js"></script>
+
+
+</head>
+
+<body>
+      <h1>201513760 - Marco Pablo Mazariegos Macario</h1>
+      <div>
+            <p>Enter the 8-puzzle values (0 means blank space) </p>
+            <input type="text" id="txtInput" value="" />
+            <select name="heuristic" id="heuristic">
+                  <option value="1">Tiles Out</option>
+                  <option value="2">Manhattan</option>
+            </select>
+            <button onclick="startAlg(txtInput.value)" id="solveButton">Solve</button>
+      </div>
+
+      <div id="container"></div>
+      <script type="text/javascript">
+            function startAlg(input) {
+                  let heuristic = document.getElementById('heuristic').selectedOptions[0].value;
+
+                  var container = document.getElementById("container");
+                  var graph = analyze(input, heuristic)
+                  var parsedData = vis.parseDOTNetwork(graph);
+                  var data = {
+                        nodes: parsedData.nodes,
+                        edges: parsedData.edges
+                  }
+                  var options = {
+                        layout: {
+                              hierarchical: {
+                                    levelSeparation: 80,
+                                    nodeSpacing: 80,
+                                    parentCentralization: true,
+                                    direction: 'UD',
+                                    sortMethod: 'directed',
+                                    shakeTowards: 'roots'
+                              },
+                        },
+                  };
+                  
+                  var network = new vis.Network(container, data, options);
+            }
+      </script>
+</body>
+
+</html>
